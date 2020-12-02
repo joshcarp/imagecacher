@@ -2,27 +2,29 @@ package main
 
 import (
 	"bytes"
-	"github.com/alecthomas/kingpin"
-	"github.com/cheggaaa/pb/v3"
-	"github.com/hashicorp/go-retryablehttp"
-	"github.com/spf13/afero"
-	"github.com/vincent-petithory/dataurl"
+	"flag"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/cheggaaa/pb/v3"
+	"github.com/hashicorp/go-retryablehttp"
+	"github.com/spf13/afero"
+	"github.com/vincent-petithory/dataurl"
 )
 
 var (
-	input = kingpin.Arg("input", "input directory to replace links in").Required().String()
+	input = flag.String("input", ".", "input directory to replace links in")
+	r     = flag.String("n", `!\[.*?\]\((?P<url>.*?)\)`, "regex link to replace")
 )
 
 func main() {
-	kingpin.Parse()
+	flag.Parse()
 	fs := afero.NewOsFs()
-	regex := regexp.MustCompile(`!\[.*?\]\((?P<url>.*?)\)`)
+	regex := regexp.MustCompile(*r)
 	prereplace := make(map[string]string)
 	files := make(map[string][]byte)
 	replace := make(map[string]string)
@@ -57,7 +59,7 @@ func main() {
 
 		go func(src, foundUrl string) {
 			defer bar.Increment()
-			defer func(){done++}()
+			defer func() { done++ }()
 			foundUrl = strings.ReplaceAll(foundUrl, "https://", "http://")
 			resp, err := RetryHTTPRequest(foundUrl)
 			if err != nil {
@@ -81,12 +83,12 @@ func main() {
 			}
 			replace[a.old] = a.new
 		default:
-			if done == len(prereplace){
+			if done == len(prereplace) {
 				close(replaceChan)
 			}
 		}
 	}
-	cont:
+cont:
 
 	for filename := range files {
 		for src, newurl := range replace {
