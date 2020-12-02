@@ -18,7 +18,7 @@ import (
 
 var (
 	input = flag.String("input", ".", "input directory to replace links in")
-	r     = flag.String("n", `!\[.*?\]\((?P<url>.*?)\)`, "regex link to replace")
+	r     = flag.String("regex", `!\[.*?\]\((?P<url>.*?)\)`, "regex link to replace")
 )
 
 func main() {
