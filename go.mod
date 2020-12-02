@@ -6,6 +6,8 @@ require (
 	github.com/alecthomas/kingpin v2.2.6+incompatible
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20201120081800-1786d5ef83d4 // indirect
+	github.com/cheggaaa/pb/v3 v3.0.5
+	github.com/hashicorp/go-retryablehttp v0.6.8
 	github.com/spf13/afero v1.4.1
 	github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50
 )
