@@ -32,7 +32,10 @@ imagecacher -input=. -regex='<img.*?src="(?P<url>.*?)"'
 
 ## Usage <a name = "usage"></a>
 
-`imagecacher -input=<dir> -regex=<regex>`
+```bash
+imagecacher -input=<dir> -regex=<regex>
+docker run -v $(pwd):/usr/app joshcarp/imagecacher -input=. -regex='<img.*?src="(?P<url>.*?)"'
+```
 
 where:
   - `input` is the directory to recursively replace images
