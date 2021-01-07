@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"mime"
@@ -42,6 +43,7 @@ func main() {
 	if err := os.MkdirAll(*output, os.ModePerm); err != nil {
 		log.Fatal("output directory invalid")
 	}
+	fmt.Println("creating output directory", *output)
 	replaceChan := make(chan replacer)
 	afero.Walk(fs, *input, func(path string, info os.FileInfo, err error) error {
 		b, err := afero.ReadFile(fs, path)
