@@ -2,6 +2,11 @@ name: deploy docker
 
 on:
   push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   push_to_registry:
