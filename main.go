@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"flag"
 	"io/ioutil"
+	"log"
 	"mime"
 	"net/http"
 	"net/url"
@@ -38,7 +39,9 @@ func main() {
 	files := make(map[string][]byte)
 	newSvgFiles := make(map[string][]byte)
 	replace := make(map[string]replacer)
-
+	if err := os.MkdirAll(*output, os.ModePerm); err != nil {
+		log.Fatal("output directory invalid")
+	}
 	replaceChan := make(chan replacer)
 	afero.Walk(fs, *input, func(path string, info os.FileInfo, err error) error {
 		b, err := afero.ReadFile(fs, path)
@@ -115,6 +118,7 @@ cont:
 			panic(err)
 		}
 	}
+
 	for filename := range newSvgFiles {
 		if err := afero.WriteFile(fs, path.Join(*output, filename), newSvgFiles[filename], os.ModePerm); err != nil {
 			panic(err)
