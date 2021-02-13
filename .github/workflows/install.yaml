@@ -1,0 +1,14 @@
+name: install
+on:
+    push:
+
+jobs:
+    increment:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install
+              uses: joshcarp/gogetcheck@v0.1.0
+              env:
+                  WITH_V: true
+                  DEFAULT_BUMP: minor
+                  RELEASE_BRANCHES: main
