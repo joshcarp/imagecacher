@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Install
-              uses: joshcarp/gogetcheck@v0.1.0
+              uses: joshcarp/gogetcheck@v0.3.0
               env:
                   WITH_V: true
                   DEFAULT_BUMP: minor
